@@ -36,7 +36,8 @@
             "omnisearch",
             "locator-store",
             "toc",
-            "sample_helloworld"
+            "sample_helloworld",
+            "dn_magnifier"
         ],
         "require": [
             "${app}.app"
@@ -46,6 +47,9 @@
         ]
     },
     "bundles": {
+        "dn_magnifier": {
+
+        },
         "banner": {
             "BannerWidget": {
                 "label": "Developer Network",
@@ -556,7 +560,8 @@
                             "zoomOutTool",
                             "compassTool",
                             "restoreInitialViewTool",
-                            "viewmodeSwitcherTool"
+                            "viewmodeSwitcherTool",
+                            "magnifierToggleTool"
                         ],
                         "registerWidget": {
                             "widgetRole": "mapview_tools"

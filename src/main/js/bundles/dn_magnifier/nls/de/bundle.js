@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 module.exports = {
-    bundleName: "Hallo Welt",
-    bundleDescription: "Das Modul gibt Hallo aus.",
-    hello: "Hallo Welt"
+    bundleName: "Lupen Bundle Erweiterung",
+    bundleDescription: "Das Modul ermöglicht die Nutzung einer Lupe zur Verfrößerung von Bildausschnitten.",
+
+    tool: {
+        title: "Lupe"
+    }
 };

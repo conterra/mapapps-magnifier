@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 module.exports = {
-    root: {
-        bundleName: "Hello World",
-        bundleDescription: "This bundle prints Hello.",
-        hello: "Hello World"
+    bundleName: "Magnifier Bundle Extension",
+    bundleDescription: "This bundle allows the user to use a magnifying glass to enlarge map sections.",
+    tool: {
+        title: "Magnifier"
     },
+
     de: true
 };

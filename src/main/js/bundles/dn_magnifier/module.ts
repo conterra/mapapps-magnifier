@@ -15,5 +15,5 @@
 ///
 
 import ".";
-import "./Hello";
+import "./MagnifierFactory";
 import "ct/tools/Tool";

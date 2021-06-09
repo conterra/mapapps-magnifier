@@ -16,7 +16,7 @@
 import registerSuite from "intern!object";
 import assert from "intern/chai!assert";
 import md from "module";
-import Hello from "../Hello";
+import Hello from "../MagnifierFactory";
 
 let createHello = function (msg) {
     let hello = new Hello();
