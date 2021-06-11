@@ -18,9 +18,18 @@
                 "dn_magnifier/MagnifierFactory"
             ],
             "properties": {
-                "factor": 1.5,
-                "size": 128,
-                "offset": {"x": 0,"y": 0}
+                "factor": 5,
+                "maskEnabled": true,
+                "maskUrl": null,
+                "offset": {
+                    "x": 128,
+                    "y": 128
+                },
+                "overlayEnabled": true,
+                "overlayUrl": null,
+                "position": null,
+                "size": 256,
+                "visible": false
             },
             "references": [
                 {
@@ -48,8 +57,8 @@
                 "iconClass": "icon-magnifier",
                 "toolRole": "toolset",
                 "togglable": true,
-                "activateHandler": "showWidget",
-                "deactivateHandler": "hideWidget",
+                "activateHandler": "showMagnifier",
+                "deactivateHandler": "hideMagnifier",
                 "noGroup": true
             },
             "references": [
