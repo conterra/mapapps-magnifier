@@ -1,7 +1,7 @@
 # Magnifier Bundle
 The Overview Map gives better orientation to the user by showing the current extent of the map in a smaller scaled map within a separated window.
 
-![Screenshot App](https://github.com/conterra/mapapps-magnifier/blob/master/Screenshot.JPG)
+![Screenshot App](https://github.com/conterra/mapapps-magnifier/blob/master/Screenshot.jpg)
 
 ## Sample App
 https://demos.conterra.de/mapapps/resources/apps/downloads_magnifier/index.html
