@@ -14,91 +14,87 @@
 /// limitations under the License.
 ///
 
-import Magnifier from "esri/views/Magnifier";
+import View from "esri/views/View";
+import { InjectedReference } from "apprt-core/InjectedReference";
 
-// Interface describing Screenpoint used for offset calulcation of magnifier
-interface ScreenPoint {
-    x: number;
-    y: number
-}
 
-// Interface describing the properties passed down from manifest.json
+// Interface definition for magnifier properties outlined in manifest.json/app.json
 interface PropertiesObject {
-    factor: number;
-    size: number;
-    offset: ScreenPoint
-}
-
-// Interface describing MapWidgetObject of the ArcGIS API without specifics to avoid TS errors
-interface MapWidgetModelObject{
-    content: any;
-    view: any
-}
-
-const _magnifierWidget = Symbol("_magnifierWidget");
+    factor: number,
+    maskEnabled: boolean,
+    maskUrl: string,
+    offset: __esri.ScreenPoint,
+    overlayEnabled: boolean,
+    overlayUrl: string,
+    position: __esri.ScreenPoint,
+    size: number,
+    visible: boolean
+};
 
 
 export default class MagnifierFactory {
 
-    // Use defined interfaces
-    _properties : PropertiesObject;
-    _mapWidgetModel: MapWidgetModelObject;
+    private _properties: PropertiesObject;
+    private _mapWidgetModel: InjectedReference;
 
-    // Constructor for a magnifier instance using parameters from manifest.json
-    createMagnifierInstance(){
-        const magnifierWidget = this[_magnifierWidget] = new Magnifier({
-            factor: this._properties.factor,
-            size: this._properties.size,
-            offset: this._properties.offset
-        });
 
-        return magnifierWidget
-    }
+    /**
+     * Function used to show magnifier
+     * uses magnifier properties specified in manifest.json or app.json
+     */
+    showMagnifier(): void {
 
-    // Function triggered when toggle tool is used to activate tool
-    showWidget() {
+        // access view
+        this._getView().then((view: View) => {
 
-        // Build magnifier
-        const magnifierWidget = this.createMagnifierInstance()
+            // set properties of the view's magnifier according to manifest.json/app.json
+            view.magnifier.factor = this._properties.factor;
+            view.magnifier.maskEnabled = this._properties.maskEnabled;
+            view.magnifier.maskUrl = this._properties.maskUrl;
+            debugger
+            view.magnifier.offset = this._properties.offset;
+            view.magnifier.overlayEnabled = this._properties.overlayEnabled;
+            view.magnifier.overlayUrl = this._properties.overlayUrl;
+            view.magnifier.position = this._properties.position;
+            view.magnifier.size = this._properties.size;
 
-        // Get view, then ...
-        this._getView().then((view) => {
-
-            // ... assign magnifier
-            view.magnifier = magnifierWidget
-
-            // ... make magnifier visible (again)
+            // finally, make magnifier visible
             view.magnifier.visible = true;
 
-            // Magnifier will be displayed whenever the cursor hovers over the map.
-            view.on("pointer-move", function (event) {
-                view.magnifier.position = { x: event.x, y: event.y };
+            // listen to pointer movements and move magnifier to new mouse cursor position
+            view.on("pointer-move", function (event): void {
+                view.magnifier.position = {
+                    x: event.x,
+                    y: event.y
+                };
             });
         });
     }
 
-    deactivate(){
-        this.hideWidget()
-    }
+    /**
+     * Function used to hide magnifier
+     */
+    hideMagnifier(): void {
 
-    hideWidget() {
-        this._getView().then((view) => {
-            // Hide magnifier, else it will stay on the view non-interactively
+        // access view
+        this._getView().then((view: View) => {
+
+            // turn off visibility of the view's magnifier
             view.magnifier.visible = false;
-
-            // Remove magnifier completely
-            this[_magnifierWidget] = null;
-            this[_magnifierWidget]?.destroy();
         });
     }
 
-    _getView() {
-        const mapWidgetModel = this._mapWidgetModel;
+    /**
+     * Helper function used to access views
+     */
+    _getView(): Promise<View> {
+        const mapWidgetModel: InjectedReference = this._mapWidgetModel;
+
         return new Promise((resolve, reject) => {
             if (mapWidgetModel.view) {
                 resolve(mapWidgetModel.view);
             } else {
-                mapWidgetModel.watch("view", ({value: view}) => {
+                mapWidgetModel.watch("view", ({ value: view }) => {
                     resolve(view);
                 });
             }
