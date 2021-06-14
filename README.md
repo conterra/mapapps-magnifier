@@ -7,7 +7,7 @@ The Overview Map gives better orientation to the user by showing the current ext
 https://demos.conterra.de/mapapps/resources/apps/downloads_magnifier/index.html
 
 ## Installation Guide
-**Requirement: map.apps 4.4.0**
+**Requirement: map.apps 4.12.0**
 
 [dn_magnifier Documentation](https://github.com/conterra/mapapps-magnifier/tree/master/src/main/js/bundles/dn_magnifier)
 
