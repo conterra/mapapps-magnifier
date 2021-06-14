@@ -1,4 +1,4 @@
-# dn_magnifier
+# Magnifier
 The Magnifier allows end users to show a portion of the view as a magnified image.
 
 ## Usage
