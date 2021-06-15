@@ -11,7 +11,7 @@ To make the functions of this bundle available to the user, the following tool c
 
 | Tool ID             | Component           | Description              |
 |---------------------|---------------------|--------------------------|
-| magnifierToggleTool | magnifierToggleTool | Show or hide the widget. |
+| magnifierToggleTool | MagnifierToggleTool | Show or hide the widget. |
 
 ## Configuration Reference
 
