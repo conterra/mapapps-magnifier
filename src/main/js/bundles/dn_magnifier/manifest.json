@@ -18,17 +18,16 @@
                 "dn_magnifier/MagnifierFactory"
             ],
             "properties": {
-                "factor": 5,
+                "factor": 1.5,
                 "maskEnabled": true,
                 "maskUrl": null,
                 "offset": {
-                    "x": 128,
-                    "y": 128
+                    "x": 60,
+                    "y": 60
                 },
                 "overlayEnabled": true,
                 "overlayUrl": null,
-                "position": null,
-                "size": 256,
+                "size": 120,
                 "visible": false
             },
             "references": [

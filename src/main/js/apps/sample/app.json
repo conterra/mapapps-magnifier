@@ -48,7 +48,19 @@
     },
     "bundles": {
         "dn_magnifier": {
-
+            "Config": {
+                "factor": 1.5,
+                "maskEnabled": false,
+                "maskUrl": null,
+                "offset": {
+                    "x": 60,
+                    "y": 60
+                },
+                "overlayEnabled": true,
+                "overlayUrl": null,
+                "size": 120,
+                "visible": false
+            }
         },
         "banner": {
             "BannerWidget": {
@@ -546,7 +558,7 @@
         },
         "toc": {
             "Config": {
-                "showBasemaps" : true
+                "showBasemaps": true
             }
         },
         "toolset": {
