@@ -10,6 +10,13 @@
     "icon": {},
     "license": {},
     "productName": "devnet-mapapps-magnifier",
+    "dependencies": {
+        "apprt-vue": "^4.11.2-SNAPSHOT",
+        "apprt-binding": "^4.11.2-SNAPSHOT",
+        "apprt-vuetify": "^4.11.2-SNAPSHOT",
+        "map-widget": "^4.11.2-SNAPSHOT",
+        "esri": "^4.19.0"
+    },
     "components": [
         {
             "name": "Config",
