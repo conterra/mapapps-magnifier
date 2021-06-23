@@ -25,45 +25,42 @@ To make the functions of this bundle available to the user, the following tool c
         "maskEnabled": true,
         "maskUrl": null,
         "offset": {
-            "x": 0,
-            "y": 0
+            "x": 60,
+            "y": 60
         },
         "overlayEnabled": true,
         "overlayUrl": null,
-        "position": null,
         "size": 120,
         "visible": false
     }
 }
 ```
 ```
-// Stronger magnification and larger magnified area, cursor no longer in magnification
+// Stronger magnification and larger magnified area
 "Config": {
     "properties": {
         "factor": 5,
         "maskEnabled": true,
         "maskUrl": null,
         "offset": {
-            "x": 0,
-            "y": 0
+            "x": 128,
+            "y": 128
         },
         "overlayEnabled": true,
         "overlayUrl": null,
-        "position": null,
         "size": 256,
         "visible": false
     }
 }
 ```
 
-| Property       | Type                    | Possible Values               | Default                | Description                                                                                                                                             |
-|----------------|-------------------------|-------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| factor         | number                  |                               | ```1.5```              | The scale multiplier between the map and the overview map.                                                                                              |
-| maskEnabled    | boolean                 | ```true``` &#124; ```false``` | ```true```             | Set fix overview map scale. If set scaleMultiplier will be ignored.                                                                                     |
-| maskUrl        | string                  |                               | ```null```             | Enable rotation of the overview map.                                                                                                                    |
-| offset         | esri.Screenpoint Object |                               | ```{"x": 0, "y": 0}``` | Choose one of the well known basemap IDs (https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap) or an own basemap config |
-| overlayEnabled | boolean                 | ```true``` &#124; ```false``` | ```true```             | Add possible UI components to the overview map (https://developers.arcgis.com/javascript/latest/api-reference/esri-views-ui-DefaultUI.html#components)  |
-| overlayUrl     | string                  |                               | ```null```             | The scale multiplier between the map and the overview map.                                                                                              |
-| position       | esri.Screenpoint Object |                               | ```null```             | Set fix overview map scale. If set scaleMultiplier will be ignored.                                                                                     |
-| size           | number                  |                               | ```120```              | Enable rotation of the overview map.                                                                                                                    |
-| visible        | boolean                 | ```true``` &#124; ```false``` | ```false```            | Choose one of the well known basemap IDs (https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap) or an own basemap config |
+| Property       | Type                      | Possible Values               | Default                | Description                                                                                                                                             |
+|----------------|---------------------------|-------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| factor         | number                    |                               | ```1.5```              | The scale multiplier between the map and the overview map.                                                                                              |
+| maskEnabled    | boolean                   | ```true``` &#124; ```false``` | ```true```             | Set fix overview map scale. If set scaleMultiplier will be ignored.                                                                                     |
+| maskUrl        | string                    |                               | ```null```             | Enable rotation of the overview map.                                                                                                                    |
+| offset         | esri/geometry/ScreenPoint |                               | ```{"x": 0, "y": 0}``` | Choose one of the well known basemap IDs (https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap) or an own basemap config |
+| overlayEnabled | boolean                   | ```true``` &#124; ```false``` | ```true```             | Add possible UI components to the overview map (https://developers.arcgis.com/javascript/latest/api-reference/esri-views-ui-DefaultUI.html#components)  |
+| overlayUrl     | string                    |                               | ```null```             | The scale multiplier between the map and the overview map.                                                                                              |
+| size           | number                    |                               | ```120```              | Enable rotation of the overview map.                                                                                                                    |
+| visible        | boolean                   | ```true``` &#124; ```false``` | ```false```            | Choose one of the well known basemap IDs (https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap) or an own basemap config |
