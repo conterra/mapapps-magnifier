@@ -50,7 +50,7 @@
         "dn_magnifier": {
             "Config": {
                 "factor": 1.5,
-                "maskEnabled": false,
+                "maskEnabled": true,
                 "maskUrl": null,
                 "offset": {
                     "x": 60,
