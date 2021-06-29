@@ -14,8 +14,17 @@
 /// limitations under the License.
 ///
 
-import ".";
-import "ct/tools/Tool";
-import "./MagnifierModel"
-import "./MagnifierFactory";
-import "./MagnifierController";
+import {declare} from "apprt-core/Mutable";
+
+export default declare({
+
+    factor: 1.5,
+    maskEnabled: true,
+    maskUrl: null,
+    offset: {x: 0, y: 0},
+    overlayEnabled: true,
+    overlayUrl: null,
+    size: 120,
+
+    offsetEnabled: false // FRAGE muss ich den in der manifest angeben?
+});

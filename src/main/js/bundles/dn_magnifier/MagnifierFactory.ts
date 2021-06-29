@@ -17,6 +17,7 @@
 import View from "esri/views/View";
 import { InjectedReference } from "apprt-core/InjectedReference";
 import ScreenPoint from "esri/geometry/ScreenPoint";
+import widget from "esri/widgets/support/widget";
 
 // Interface definition for magnifier properties outlined in manifest.json/app.json
 interface PropertiesObject {
@@ -33,65 +34,109 @@ interface PropertiesObject {
 
 export default class MagnifierFactory {
 
+    private tool = null;
+    private controller = null;
+    private bundleContext = null;
+    private magnifierControlWidget = null;
+    private serviceRegistration = null;
     private _properties: PropertiesObject;
     private _mapWidgetModel: InjectedReference;
 
-    /**
-     * Function used to show magnifier
-     * uses magnifier properties specified in manifest.json or app.json
-     */
-    showMagnifier(): void {
-        // access view
-        this._getView().then((view: View) => {
-            // set properties of the view's magnifier according to manifest.json/app.json
-            view.magnifier.factor = this._properties.factor;
-            view.magnifier.maskEnabled = this._properties.maskEnabled;
-            view.magnifier.maskUrl = this._properties.maskUrl;
-            view.magnifier.offset = this._properties.offset;
-            view.magnifier.overlayEnabled = this._properties.overlayEnabled;
-            view.magnifier.overlayUrl = this._properties.overlayUrl;
-            view.magnifier.size = this._properties.size;
-
-            // finally, make magnifier visible
-            view.magnifier.visible = true;
-
-            // listen to pointer movements and move magnifier to new mouse cursor position
-            view.on("pointer-move", function (event): void {
-                view.magnifier.position = {
-                    x: event.x,
-                    y: event.y
-                };
-            });
-            view.cursor = "crosshair";
-        });
+    activate(componentContext: any) {
+        console.log("activate()")
+        // this.bundleContext = componentContext.getBundleContext();
+        // this._initComponent();
     }
 
-    /**
-     * Function used to hide magnifier
-     */
-    hideMagnifier(): void {
-        // access view
-        this._getView().then((view: View) => {
-            // turn off visibility of the view's magnifier
-            view.magnifier.visible = false;
-        });
-        view.cursor = "default";
+    deactivate(): void {
+        this._destroyWidget();
     }
 
-    /**
-     * Helper function used to access the esri/views/View instance
-     */
-    _getView(): Promise<View> {
-        const mapWidgetModel = this._mapWidgetModel;
+    onToolActivated(evt: Event): void {
+        console.log("Tool activated")
+        this.tool = evt.tool;
+        this.controller = this._MagnifierController;
 
-        return new Promise((resolve) => {
-            if (mapWidgetModel.view) {
-                resolve(mapWidgetModel.view);
-            } else {
-                mapWidgetModel.watch("view", ({ value: view }) => {
-                    resolve(view);
-                });
+        const widget = this.getWidget(controller._getView());
+        widget.own({
+            remove() {
+                widget.destroy();
             }
         });
+        this._showWindow(widget);
+
+    }
+
+    _showWindow(widget: any): void {
+        const serviceProperties = {
+            "widgetRole": "dn_magnifier.MagnifierControlWidget"
+        };
+        const interfaces = ["dijit.Widget"];
+        const content = widget
+        this.serviceRegistration = this.bundleContext.registerService(interfaces, content, serviceProperties);
+
+        async(() => {
+            const window = ct_util.findEnclosingWindow(content);
+            window.on("Hide", () => {
+                this._hideWindow();
+            });
+        }, 1000);
+    }
+
+    _hideWindow(): void {
+        this.elevationProfileWidget?.viewModel?.clear();
+        this.elevationProfileWidget?.destroy();
+        this.elevationProfileWidget = null;
+
+        const registration = this.serviceRegistration;
+
+        // clear the reference
+        this.serviceRegistration = null;
+
+        if (registration) {
+            // call unregister
+            registration.unregister();
+        }
+        if (this.tool) {
+            this.tool.set("active", false);
+        }
+    }
+
+    getWidget(view: View): any { // return vuedijit this.vm
+        const magnifierProperties = this.getMagnifierProperties(view);
+        return this.magnifierControlWidget = new MagnifierControlWidget(magnifierProperties);
+    }
+
+    _destroyWidget(): void {
+        this.magnifierControlWidget.destroy();
+        this.magnifierControlWidget = undefined;
+    }
+
+    getMagnifierProperties(view: View): PropertiesObject {
+        const properties = this._properties;
+        return Object.assign({view: view}, properties);
+    }
+
+    _initComponent(): void {
+        const vm = this.vm =  new Vue(MagnifierControlWidget);
+        const model = this._mapWidgetModel;
+        this.controller = this._MagnifierController;
+
+        vm.$on('adjust-factor', (value) => {
+            this.controller.adjustFactor(value)
+        });
+
+        vm.$on('adjust-size', (value) => {
+            this.controller.adjustSize(value)
+        });
+
+        vm.$on('toggle-offset', (value) => {
+            this.controller.toggleOffset(value)
+        });
+
+        Binding.for(vm, model)
+            .syncAll("factor", "size", "offset", "offsetEnabled")
+            .enable()
+            .syncToLeftNow();
     }
 }
