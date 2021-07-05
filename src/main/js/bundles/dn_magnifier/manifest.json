@@ -8,6 +8,9 @@
         "sample"
     ],
     "icon": {},
+    "i18n": [
+        "bundle"
+    ],
     "license": {},
     "productName": "devnet-mapapps-magnifier",
     "dependencies": {
@@ -19,9 +22,9 @@
     },
     "layout-widgets": [
         {
-            "widgetRole": "magnifierControlWidget",
+            "widgetRole": "magnifierControl",
             "window": {
-                "title": "Test",
+                "title": "${widgetTitle}",
                 "closable": true,
                 "minimizeOnClose": true,
                 "maximizable": true,
@@ -30,8 +33,8 @@
                 "marginBox": {
                     "l": 20,
                     "t": 140,
-                    "w": 600,
-                    "h": 450
+                    "w": 300,
+                    "h": 275
                 }
             }
         }
@@ -55,16 +58,26 @@
                 "overlayEnabled": true,
                 "overlayUrl": null,
                 "size": 120,
-                "visible": false
+                "visible": false,
+                "offsetEnabled": true
             }
         },
         {
-            "name": "MagnifierFactory",
-            "provides": "dn_magnifier.MagnifierFactory",
+            "name": "MagnifierControlWidgetFactory",
+            "provides": "dijit.Widget",
+            "instanceFactory": true,
+            "properties": {
+              "widgetRole": "magnifierControl"
+            },
             "references": [
                 {
                     "name": "_magnifierModel",
                     "providing": "dn_magnifier.MagnifierModel"
+                },
+                {
+                    "name": "_magnifierController",
+                    "providing": "dn_magnifier.MagnifierController",
+                    "cardinality": "0..1"
                 },
                 {
                     "name": "_tool",
