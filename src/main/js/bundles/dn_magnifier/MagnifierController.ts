@@ -14,13 +14,47 @@
 /// limitations under the License.
 ///
 
+import MagnifierControlWidget from "./MagnifierControlWidget.vue";
+import View from "esri/views/View";
+import {InjectedReference} from "apprt-core/InjectedReference";
+import async from "apprt-core/async";
+import VueDijit from "apprt-vue/VueDijit";
+import Binding from "apprt-binding/Binding";
+import Vue from "apprt-vue/Vue";
+import ct_util from "ct/ui/desktop/util";
+import Observers from "apprt-core/Observers";
+
 export default class {
 
+    private serviceRegistration = null;
+    private bundleContext = null;
+    private controlWidget = null;
     private moveEventHandler = null;
+    private observers = null;
+    private _mapWidgetModel: InjectedReference;
+    private _magnifierModel: InjectedReference;
+    private _tool: InjectedReference;
+
+    activate(componentContext) {
+        this.bundleContext = componentContext.getBundleContext();
+        this.observers = new Observers(undefined);
+
+        const model = this._magnifierModel;
+        this.observers.add(model.watch("factor",({value: value})=>{
+            this.adjustFactor(value);
+        }));
+    }
+
+    deactivate() {
+        this.hideMagnifier();
+
+        this.observers.clean();
+        this.observers = null;
+    }
 
     /**
-    * Helper function used to access the esri/views/View instance
-    */
+     * Helper function used to access the esri/views/View instance
+     */
     _getView(): Promise<View> {
         const mapWidgetModel = this._mapWidgetModel;
 
@@ -28,7 +62,7 @@ export default class {
             if (mapWidgetModel.view) {
                 resolve(mapWidgetModel.view);
             } else {
-                mapWidgetModel.watch("view", ({ value: view }) => {
+                mapWidgetModel.watch("view", ({value: view}) => {
                     resolve(view);
                 });
             }
@@ -41,20 +75,11 @@ export default class {
      */
     showMagnifier(): void {
 
+        const widget = this.controlWidget = this._getWidget();
+        this._showWindow(widget);
+
         // access view
         this._getView().then((view: View) => {
-
-            const model = this._magnifierModel
-
-            // set properties of the view's magnifier according to manifest.json/app.json
-            view.magnifier.factor = model.factor;
-            view.magnifier.maskEnabled = model.maskEnabled;
-            view.magnifier.maskUrl = model.maskUrl;
-            view.magnifier.offset = model.offset;
-            view.magnifier.overlayEnabled = model.overlayEnabled;
-            view.magnifier.overlayUrl = model.overlayUrl;
-            view.magnifier.size = model.size;
-
             // finally, make magnifier visible
             view.magnifier.visible = true;
 
@@ -66,6 +91,7 @@ export default class {
                 };
             });
             view.cursor = "crosshair";
+
         });
     }
 
@@ -73,6 +99,8 @@ export default class {
      * Function used to hide magnifier
      */
     hideMagnifier(): void {
+        this._hideWindow();
+
         // access view
         this._getView().then((view: View) => {
             // turn off visibility of the view's magnifier
@@ -88,7 +116,7 @@ export default class {
     /**
      * Function used to determine offset distance of pointer and magnifier
      */
-    calcOffset(): void{
+    calcOffset(): void {
         const magnifierModel = this._magnifierModel;
 
         const xOffset: number = magnifierModel.size / 2;
@@ -101,45 +129,121 @@ export default class {
     /**
      * Function used to apply changed properties to magnifier
      */
-    refreshMagnifier(): void{
+    refreshMagnifier(): void {
         const magnifierModel = this._magnifierModel;
 
-        if(magnifierModel.offsetEnabled){
+        if (magnifierModel.offsetEnabled) {
             this.calcOffset();
         }
 
-        this.hideMagnifier();
-        this.showMagnifier();
+        this._updateMagnifierProps();
     }
 
-    adjustFactor(value: number): void{
+    adjustFactor(value: number): void {
         const magnifierModel = this._magnifierModel;
         magnifierModel.factor = value;
 
         this.refreshMagnifier();
     }
 
-    adjustSize(value: number): void{
+    adjustSize(value: number): void {
         const magnifierModel = this._magnifierModel;
         magnifierModel.size = value;
 
         this.refreshMagnifier();
     }
 
-    toggleOffset(): void{
+    toggleOffset(): void {
         const magnifierModel = this._magnifierModel;
         const offsetState = !magnifierModel.offsetEnabled;
 
-        if (offsetState){
+        if (offsetState) {
             this.calcOffset();
 
             magnifierModel.offsetEnabled = true;
-        }
-        else {
+        } else {
             magnifierModel.offset.x = 0;
             magnifierModel.offset.y = 0;
 
             magnifierModel.offsetEnabled = false;
         }
     }
+
+    _getMagnifier() {
+        this._getView().then((view: View) => {
+            return view.magnifier;
+        });
+    }
+
+    _updateMagnifierProps() {
+        const model = this._magnifierModel;
+        this._getView().then((view: View) => {
+            // set properties of the view's magnifier according to manifest.json/app.json
+            view.magnifier.factor = model.factor;
+            view.magnifier.maskEnabled = model.maskEnabled;
+            view.magnifier.maskUrl = model.maskUrl;
+            view.magnifier.offset = model.offset;
+            view.magnifier.overlayEnabled = model.overlayEnabled;
+            view.magnifier.overlayUrl = model.overlayUrl;
+            view.magnifier.size = model.size;
+        });
+    }
+
+    _showWindow(widget) {
+        const serviceProperties = {
+            "widgetRole": "magnifierControlWidget"
+        };
+        const interfaces = ["dijit.Widget"];
+        this.serviceRegistration = this.bundleContext.registerService(interfaces, widget, serviceProperties);
+
+        async(() => {
+            const window = ct_util.findEnclosingWindow(widget);
+            window?.on("Hide", () => {
+                this._hideWindow();
+            });
+        }, 1000);
+    }
+
+    _hideWindow() {
+        this.controlWidget = null;
+        const registration = this.serviceRegistration;
+
+        // clear the reference
+        this.serviceRegistration = null;
+
+        if (registration) {
+            // call unregister
+            registration.unregister();
+        }
+        if (this._tool) {
+            this._tool.set("active", false);
+        }
+    }
+
+    _getWidget(): void {
+        const vm = new Vue(MagnifierControlWidget);
+        const model = this._magnifierModel;
+        vm.i18n = this._i18n.get();
+
+        // vm.$on('adjust-size', (value) => {
+        //     this.adjustSize(value);
+        // });
+        //
+        // vm.$on('toggle-offset', function () {
+        //     this.toggleOffset();
+        // });
+
+        Binding.for(vm, model)
+            .syncAll("factor", "size", "offsetEnabled")
+            .enable()
+            .syncToLeftNow();
+
+        return VueDijit(vm);
+    }
+
+    _destroyWidget() {
+        this.controlWidget.destroy();
+        this.controlWidget = undefined;
+    }
+
 }

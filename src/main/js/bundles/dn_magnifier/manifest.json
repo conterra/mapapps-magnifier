@@ -22,7 +22,7 @@
     },
     "layout-widgets": [
         {
-            "widgetRole": "magnifierControl",
+            "widgetRole": "magnifierControlWidget",
             "window": {
                 "title": "${widgetTitle}",
                 "closable": true,
@@ -63,31 +63,6 @@
             }
         },
         {
-            "name": "MagnifierControlWidgetFactory",
-            "provides": "dijit.Widget",
-            "instanceFactory": true,
-            "properties": {
-              "widgetRole": "magnifierControl"
-            },
-            "references": [
-                {
-                    "name": "_magnifierModel",
-                    "providing": "dn_magnifier.MagnifierModel"
-                },
-                {
-                    "name": "_magnifierController",
-                    "providing": "dn_magnifier.MagnifierController",
-                    "cardinality": "0..1"
-                },
-                {
-                    "name": "_tool",
-                    "providing": "ct.tools.Tool",
-                    "filter": "(id=magnifierToggleTool)",
-                    "cardinality": "0..1"
-                }
-            ]
-        },
-        {
             "name": "MagnifierController",
             "provides": "dn_magnifier.MagnifierController",
             "references": [
@@ -98,6 +73,12 @@
                 {
                     "name": "_mapWidgetModel",
                     "providing": "map-widget.MapWidgetModel"
+                },
+                {
+                    "name": "_tool",
+                    "providing": "ct.tools.Tool",
+                    "filter": "(id=magnifierToggleTool)",
+                    "cardinality": "0..1"
                 }
             ]
         },

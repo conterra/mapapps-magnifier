@@ -18,4 +18,3 @@ import ".";
 import "ct/tools/Tool";
 import "./MagnifierModel"
 import "./MagnifierController";
-import "./MagnifierControlWidgetFactory";

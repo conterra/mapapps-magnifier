@@ -91,11 +91,6 @@
             }
         },
         watch:{
-            factor: {
-                handler(value) {
-                    this.$emit('adjust-factor', value);
-                }
-            },
             size: {
                 handler(value) {
                     this.$emit('adjust-size', value)
