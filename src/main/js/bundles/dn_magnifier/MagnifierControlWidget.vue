@@ -19,36 +19,56 @@
     <v-container
         class="pa-0 fullHeight magnifier-container"
     >
-        <v-flex
-            xs12
-            px-4
+        <v-layout
+            align-center
+            justify-center
+            column
+            fill-height
+            pt-3
+            dense
         >
-            <v-slider
-                v-model="factor"
-                class="pt-10"
-                hide-details
-            />
-        </v-flex>
-        <v-flex
-            xs12
-            px-4
-        >
-            <v-slider
-                v-model="size"
-                class="pt-10"
-                hide-details
-            />
-        </v-flex>
-        <v-flex
-            xs12
-            px-4
-        >
-            <v-button
-                v-model="offset"
-                class="pt-10"
-                hide-details
-            />
-        </v-flex>
+            <v-flex
+                xs12
+                px-4
+            >
+                <v-slider
+                    v-model="factor"
+                    :label="i18n.ui.factorLabel"
+                    thumb-label
+                    class="pt-10"
+                    min="1"
+                    max="25"
+                    append-icon="zoom_in"
+                    prepend-icon="zoom_out"
+                />
+            </v-flex>
+            <v-flex
+                xs12
+                px-4
+            >
+                <v-slider
+                    v-model="size"
+                    :label="i18n.ui.sizeLabel"
+                    thumb-label
+                    class="pt-10"
+                    min="32"
+                    max="512"
+                    append-icon="add"
+                    prepend-icon="remove"
+                />
+            </v-flex>
+            <v-flex
+                xs12
+                px-4
+            >
+                <v-btn
+                    :class="{ primary: offsetEnabled, secondary: !offsetEnabled }"
+                    @click="$emit('toggle-offset')"
+                >
+                    {{ i18n.ui.toggleButton }}
+                </v-btn>
+            </v-flex>
+        </v-layout>
     </v-container>
 </template>
 <script>
@@ -65,9 +85,9 @@
                 type: Number,
                 default: 120
             },
-            offset: {
+            offsetEnabled: {
                 type: Boolean,
-                default: true
+                default: () => true
             }
         },
         watch:{
@@ -79,11 +99,6 @@
             size: {
                 handler(value) {
                     this.$emit('adjust-size', value)
-                }
-            },
-            offset: {
-                handler(value) {
-                    this.$emit('toggle-offset', value)
                 }
             }
         }
