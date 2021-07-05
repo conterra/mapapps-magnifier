@@ -85,30 +85,60 @@ export default class {
         });
     }
 
+    /**
+     * Function used to determine offset distance of pointer and magnifier
+     */
+    calcOffset(): void{
+        const magnifierModel = this._magnifierModel;
+
+        const xOffset: number = magnifierModel.size / 2;
+        const yOffset: number = magnifierModel.size / 2;
+
+        magnifierModel.offset.x = xOffset;
+        magnifierModel.offset.y = yOffset;
+    }
+
+    /**
+     * Function used to apply changed properties to magnifier
+     */
+    refreshMagnifier(): void{
+        const magnifierModel = this._magnifierModel;
+
+        if(magnifierModel.offsetEnabled){
+            this.calcOffset();
+        }
+
+        this.hideMagnifier();
+        this.showMagnifier();
+    }
+
     adjustFactor(value: number): void{
         const magnifierModel = this._magnifierModel;
         magnifierModel.factor = value;
+
+        this.refreshMagnifier();
     }
 
     adjustSize(value: number): void{
         const magnifierModel = this._magnifierModel;
         magnifierModel.size = value;
+
+        this.refreshMagnifier();
     }
 
-    toggleOffset(value: boolean): void{
+    toggleOffset(): void{
         const magnifierModel = this._magnifierModel;
+        const offsetState = !magnifierModel.offsetEnabled;
 
-        if (value){
-            const xOffset: number = magnifierModel.size / 2;
-            const yOffset: number = magnifierModel.size / 2;
-
-            magnifierModel.offset.x = xOffset;
-            magnifierModel.offset.y = yOffset;
+        if (offsetState){
+            this.calcOffset();
 
             magnifierModel.offsetEnabled = true;
-
         }
         else {
+            magnifierModel.offset.x = 0;
+            magnifierModel.offset.y = 0;
+
             magnifierModel.offsetEnabled = false;
         }
     }
