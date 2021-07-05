@@ -26,5 +26,5 @@ export default declare({
     overlayUrl: null,
     size: 120,
 
-    offsetEnabled: false // FRAGE muss ich den in der manifest angeben?
+    offsetEnabled: true
 });
