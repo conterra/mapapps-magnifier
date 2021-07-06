@@ -186,7 +186,7 @@ export default class {
     private getControlWidget(): InjectedReference {
         const vm = new Vue(MagnifierControlWidget);
         const model = this._magnifierModel;
-        vm.i18n = this._i18n.get();
+        vm.i18n = this._i18n.get().ui;
 
         this.controlWidgetBinding = Binding.for(vm, model)
             .syncAll("factor", "size", "offsetEnabled")

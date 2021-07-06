@@ -20,40 +20,45 @@
         class="pa-0 fullHeight magnifier-container"
     >
         <v-layout
-            align-center
-            justify-center
-            column
-            fill-height
-            dense
+            row
+            wrap
         >
-            <v-flex>
-                <v-switch
-                    v-model="offsetDisabled"
-                    :label="i18n.ui.offsetDisabledLabel"
-                    color="primary"
-                />
-            </v-flex>
-            <v-flex>
+            <v-flex xs12>
+                <v-subheader class="pl-0">
+                    {{ i18n.factorLabel }}
+                </v-subheader>
                 <v-slider
                     v-model="factor"
-                    :label="i18n.ui.factorLabel"
-                    thumb-label
+                    thumb-label="always"
                     step="0.5"
                     min="1"
                     max="25"
                     append-icon="zoom_in"
                     prepend-icon="zoom_out"
+                    hide-details
                 />
             </v-flex>
-            <v-flex>
+            <v-flex xs12>
+                <v-subheader class="pl-0">
+                    {{ i18n.sizeLabel }}
+                </v-subheader>
                 <v-slider
                     v-model="size"
-                    :label="i18n.ui.sizeLabel"
-                    thumb-label
+                    thumb-label="always"
                     min="32"
                     max="512"
                     append-icon="add"
                     prepend-icon="remove"
+                    hide-details
+                />
+            </v-flex>
+            <v-flex xs12>
+                <v-switch
+                    v-model="offsetDisabled"
+                    :label="i18n.offsetDisabledLabel"
+                    class="pt-3 pl-2 ma-0"
+                    color="primary"
+                    hide-details
                 />
             </v-flex>
         </v-layout>
@@ -76,6 +81,11 @@
             offsetEnabled: {
                 type: Boolean,
                 default: () => true
+            },
+            i18n: {
+                type: Object,
+                default: () => {
+                }
             }
         },
         computed: {
