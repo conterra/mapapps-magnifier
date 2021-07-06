@@ -31,7 +31,9 @@ To make the functions of this bundle available to the user, the following tool c
         "overlayEnabled": true,
         "overlayUrl": null,
         "size": 120,
-        "visible": false
+        "visible": false,
+        "offsetEnabled": true,
+        "showControlWidget": true
     }
 }
 ```
@@ -43,13 +45,15 @@ To make the functions of this bundle available to the user, the following tool c
         "maskEnabled": true,
         "maskUrl": null,
         "offset": {
-            "x": 128,
-            "y": 128
+            "x": 100,
+            "y": 100
         },
         "overlayEnabled": true,
         "overlayUrl": null,
-        "size": 256,
-        "visible": false
+        "size": 200,
+        "visible": false,
+        "offsetEnabled": true,
+        "showControlWidget": true
     }
 }
 ```
