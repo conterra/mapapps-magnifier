@@ -15,14 +15,13 @@
 ///
 
 import MagnifierControlWidget from "./MagnifierControlWidget.vue";
-import View from "esri/views/View";
-import Vue from "apprt-vue/Vue";
-import async from "apprt-core/async";
-import ct_util from "ct/ui/desktop/util";
-import VueDijit from "apprt-vue/VueDijit";
-import Binding from "apprt-binding/Binding";
-import Observers from "apprt-core/Observers";
 import { InjectedReference } from "apprt-core/InjectedReference";
+import Vue from "apprt-vue/Vue";
+import VueDijit from "apprt-vue/VueDijit";
+import async from "apprt-core/async";
+import Binding from "apprt-binding/Binding";
+import ct_util from "ct/ui/desktop/util";
+import View from "esri/views/View";
 
 export default class {
 
@@ -45,25 +44,21 @@ export default class {
      */
     activate(componentContext: InjectedReference): void {
         this.bundleContext = componentContext.getBundleContext();
-        const magnifierModel = this._magnifierModel;
 
-        // if the magnifierControlWidget is used watch the managed properties
-        if(magnifierModel.showControlWidget){
-            this.observers = new Observers(undefined);
+        this.getView().then((view: View) => {
+            const magnifierModel = this._magnifierModel;
 
-            this.observers.add(magnifierModel.watch("factor", ({ value: value }) => {
-                this._setFactor(value);
-            }));
-            this.observers.add(magnifierModel.watch("size", ({ value: value }) => {
-                this._setSize(value);
-            }));
-            this.observers.add(magnifierModel.watch("offsetEnabled", ({ value: value }) => {
-                this.toggleOffset(value);
-            }));
-        }
-
-        // refresh magnifierProperties to apply offset correctly
-        this._updateMagnifierProps("offsetEnabled");
+            Binding.for(view.magnifier, magnifierModel)
+                .syncAll("factor")
+                .syncAll("maskEnabled", "maskUrl")
+                .syncAll("offset", "offsetEnabled")
+                .syncAll("overlayEnabled", "overlayUrl")
+                .syncAll("size")
+                .syncAll("visible")
+                .syncAll("showControlWidget")
+                .enable()
+                .syncToLeftNow();
+        });
     }
 
     /**
@@ -79,22 +74,6 @@ export default class {
         // this._destroyWidget();
     }
 
-    /**
-     * Helper function used to access the esri/views/View instance
-     */
-    _getView(): Promise<View> {
-        const mapWidgetModel = this._mapWidgetModel;
-
-        return new Promise((resolve) => {
-            if (mapWidgetModel.view) {
-                resolve(mapWidgetModel.view);
-            } else {
-                mapWidgetModel.watch("view", ({ value: view }) => {
-                    resolve(view);
-                });
-            }
-        });
-    }
 
     /**
      * Function used to show magnifier
@@ -103,7 +82,7 @@ export default class {
     showMagnifierComponents(): void {
         const magnifierModel = this._magnifierModel;
 
-        this._getView().then((view: View) => {
+        this.getView().then((view: View) => {
             view.magnifier.visible = true;
 
             // add listener to mouse cursor movements used to move magnifier to current location
@@ -119,9 +98,9 @@ export default class {
         });
 
         // if the magnifierControlWidget is enabled show it alongside magnifier
-        if(magnifierModel.showControlWidget){
-            const widget = this.controlWidget = this._getWidget();
-            this._showWindow(widget);
+        if (magnifierModel.showControlWidget) {
+            const widget = this.controlWidget = this.getWidget();
+            this.showWindow(widget);
         }
     }
 
@@ -131,7 +110,7 @@ export default class {
     hideMagnifierComponents(): void {
         const magnifierModel = this._magnifierModel;
 
-        this._getView().then((view: View) => {
+        this.getView().then((view: View) => {
             view.magnifier.visible = false;
 
             // remove mouse cursor movement listener to safe resources
@@ -141,83 +120,25 @@ export default class {
         });
 
         // if the magnifierControlWidget is enabled hide it alongside magnifier
-        if(magnifierModel.showControlWidget){
-            this._hideWindow();
+        if (magnifierModel.showControlWidget) {
+            this.hideWindow();
         }
     }
 
     /**
-     * Function used to set magnification factor according to magnifierControlWidget inputs
-     * @param value New magnification factor
+     * Helper function used to access the esri/views/View instance
      */
-    _setFactor(value: number): void {
-        const magnifierModel = this._magnifierModel;
-        magnifierModel.factor = value;
+    private getView(): Promise<View> {
+        const mapWidgetModel = this._mapWidgetModel;
 
-        // update the magnifierModel factor attribute
-        this._updateMagnifierProps("factor");
-    }
-
-    /**
-     * Function used to set magnifier size according to magnifierControlWidget inputs
-     * @param value New magnifier size
-     */
-    _setSize(value: number): void {
-        const magnifierModel = this._magnifierModel;
-        magnifierModel.size = value;
-
-        // update the magnifierModel size attribute
-        this._updateMagnifierProps("size");
-    }
-
-    /**
-     * Function used to control magnifier offset
-     * Turns magnifier offset on/off depending on magnifierControlWidget inputs
-     * If on also calulates the correct offset depending on magnifier size
-     * @param value Function
-     */
-    toggleOffset(value: boolean): void {
-        const magnifierModel = this._magnifierModel;
-        magnifierModel.offsetEnabled = value;
-
-        if (value) {
-            magnifierModel.offset.x = magnifierModel.size / 2;
-            magnifierModel.offset.y = magnifierModel.size / 2;
-
-        } else {
-            magnifierModel.offset.x = 0;
-            magnifierModel.offset.y = 0;
-        }
-
-        // update the magnifierModel offset attributes on/off and offset distance
-        this._updateMagnifierProps("offsetEnabled");
-    }
-
-    /**
-     * Function used to update the magnifier properties based on magnifierModel attribute changes
-     * @param caller String used to determine which attribute to update
-     */
-    _updateMagnifierProps(caller: string): void {
-        const magnifierModel = this._magnifierModel;
-        this._getView().then((view: View) => {
-
-            switch (caller) {
-                case "factor":
-                    view.magnifier.factor = magnifierModel.factor;
-                    break;
-
-                case "size":
-                    view.magnifier.size = magnifierModel.size;
-                    this.toggleOffset(magnifierModel.offsetEnabled);
-                    break;
-
-                case "offsetEnabled":
-                    view.magnifier.offset.x = magnifierModel.offset.x;
-                    view.magnifier.offset.y = magnifierModel.offset.y;
-                    break;
-
-                default:
-                // no default
+        return new Promise((resolve) => {
+            if (mapWidgetModel.view) {
+                resolve(mapWidgetModel.view);
+            }
+            else {
+                mapWidgetModel.watch("view", ({ value: view }) => {
+                    resolve(view);
+                });
             }
         });
     }
@@ -226,7 +147,7 @@ export default class {
      * Function used to display the magnifierControlWidget
      * @param widget VueDijit of magnifierControlWidget provided be getWidget()
      */
-    _showWindow(widget: InjectedReference): void {
+    private showWindow(widget: InjectedReference): void {
         const serviceProperties = {
             "widgetRole": "magnifierControlWidget"
         };
@@ -236,7 +157,7 @@ export default class {
         async(() => {
             const window = ct_util.findEnclosingWindow(widget);
             window?.on("Hide", () => {
-                this._hideWindow();
+                this.hideWindow();
             });
         }, 1000);
     }
@@ -244,7 +165,7 @@ export default class {
     /**
      * Function used to hide the magnifierControlWidget
      */
-    _hideWindow(): void {
+    private hideWindow(): void {
         this.controlWidget = null;
         const registration = this.serviceRegistration;
 
@@ -264,7 +185,7 @@ export default class {
      * Function used to construct VueDijit and create binding for magnifierControlWidget
      * @returns VueDijit of magnifierControlWidget
      */
-    _getWidget(): InjectedReference {
+    private getWidget(): InjectedReference {
         const vm = new Vue(MagnifierControlWidget);
         const model = this._magnifierModel;
         vm.i18n = this._i18n.get();
@@ -280,7 +201,7 @@ export default class {
     /**
      * Function used to destroy the magnifierControlWidget
      */
-    _destroyWidget(): void {
+    private destroyWidget(): void {
         this.controlWidget.destroy();
         this.controlWidget = undefined;
     }
