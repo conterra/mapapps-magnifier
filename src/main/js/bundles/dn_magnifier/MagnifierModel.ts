@@ -36,8 +36,8 @@ export default declare({
         },
         "offsetEnabled"(value) {
             if (value) {
-                this.offset.x = value / 2;
-                this.offset.y = value / 2;
+                this.offset.x = this.size / 2;
+                this.offset.y = this.size / 2;
             }
             else {
                 this.offset.x = 0;
