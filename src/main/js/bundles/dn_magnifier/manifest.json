@@ -27,14 +27,14 @@
                 "title": "${widgetTitle}",
                 "closable": true,
                 "minimizeOnClose": true,
-                "maximizable": true,
+                "maximizable": false,
                 "resizable": true,
                 "draggable": true,
                 "marginBox": {
-                    "l": 20,
-                    "t": 140,
-                    "w": 300,
-                    "h": 275
+                    "l": 10,
+                    "t": 115,
+                    "w": 275,
+                    "h": 300
                 }
             }
         }
@@ -59,7 +59,8 @@
                 "overlayUrl": null,
                 "size": 120,
                 "visible": false,
-                "offsetEnabled": true
+                "offsetEnabled": true,
+                "showControlWidget": true
             }
         },
         {
@@ -96,8 +97,8 @@
                 "iconClass": "icon-magnifier",
                 "toolRole": "toolset",
                 "togglable": true,
-                "activateHandler": "showMagnifier",
-                "deactivateHandler": "hideMagnifier",
+                "activateHandler": "showMagnifierComponents",
+                "deactivateHandler": "hideMagnifierComponents",
                 "noGroup": true
             },
             "references": [
