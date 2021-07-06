@@ -8,6 +8,9 @@
         "sample"
     ],
     "icon": {},
+    "i18n": [
+        "bundle"
+    ],
     "license": {},
     "productName": "devnet-mapapps-magnifier",
     "dependencies": {
@@ -17,13 +20,33 @@
         "map-widget": "^4.11.2-SNAPSHOT",
         "esri": "^4.19.0"
     },
+    "layout-widgets": [
+        {
+            "widgetRole": "magnifierControlWidget",
+            "window": {
+                "title": "${widgetTitle}",
+                "closable": true,
+                "minimizeOnClose": true,
+                "maximizable": false,
+                "resizable": true,
+                "draggable": true,
+                "marginBox": {
+                    "l": 10,
+                    "t": 115,
+                    "w": 275,
+                    "h": 300
+                }
+            }
+        }
+    ],
     "components": [
         {
             "name": "Config",
-            "impl": "./MagnifierFactory",
+            "impl": "./MagnifierModel",
             "provides": [
-                "dn_magnifier/MagnifierFactory"
+                "dn_magnifier.MagnifierModel"
             ],
+            "propertiesConstructor": true,
             "properties": {
                 "factor": 1.5,
                 "maskEnabled": true,
@@ -35,9 +58,19 @@
                 "overlayEnabled": true,
                 "overlayUrl": null,
                 "size": 120,
-                "visible": false
-            },
+                "visible": false,
+                "offsetEnabled": true,
+                "showControlWidget": true
+            }
+        },
+        {
+            "name": "MagnifierController",
+            "provides": "dn_magnifier.MagnifierController",
             "references": [
+                {
+                    "name": "_magnifierModel",
+                    "providing": "dn_magnifier.MagnifierModel"
+                },
                 {
                     "name": "_mapWidgetModel",
                     "providing": "map-widget.MapWidgetModel"
@@ -54,7 +87,8 @@
             "name": "MagnifierToggleTool",
             "impl": "ct/tools/Tool",
             "provides": [
-                "ct.tools.Tool"
+                "ct.tools.Tool",
+                "dn_magnifier.MagnifierToggleTool"
             ],
             "propertiesConstructor": true,
             "properties": {
@@ -63,14 +97,14 @@
                 "iconClass": "icon-magnifier",
                 "toolRole": "toolset",
                 "togglable": true,
-                "activateHandler": "showMagnifier",
-                "deactivateHandler": "hideMagnifier",
+                "activateHandler": "showMagnifierComponents",
+                "deactivateHandler": "hideMagnifierComponents",
                 "noGroup": true
             },
             "references": [
                 {
                     "name": "handlerScope",
-                    "providing": "dn_magnifier/MagnifierFactory"
+                    "providing": "dn_magnifier.MagnifierController"
                 }
             ]
         }

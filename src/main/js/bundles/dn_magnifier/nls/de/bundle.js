@@ -16,8 +16,13 @@
 module.exports = {
     bundleName: "Lupen Bundle Erweiterung",
     bundleDescription: "Das Modul ermöglicht die Nutzung einer Lupe zur Verfrößerung von Bildausschnitten.",
-
     tool: {
         title: "Lupe"
+    },
+    ui: {
+        header: "Lupen Einstellungen",
+        toggleButton: "Verschiebung an/aus",
+        factorLabel: "Faktor",
+        sizeLabel: "Größe"
     }
 };

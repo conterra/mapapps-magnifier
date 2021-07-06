@@ -19,6 +19,12 @@ module.exports = {
     tool: {
         title: "Magnifier"
     },
+    ui: {
+        header: "Magnifier Settings",
+        toggleButton: "Toggle Offset",
+        factorLabel: "Factor",
+        sizeLabel: "Size"
+    },
 
     de: true
 };
