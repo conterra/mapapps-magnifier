@@ -26,7 +26,6 @@ import View from "esri/views/View";
 export default class {
 
     private _i18n = null;
-    private observers = null;
     private bundleContext = null;
     private controlWidget = null;
     private moveEventHandler = null;
