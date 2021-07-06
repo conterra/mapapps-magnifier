@@ -14,17 +14,35 @@
 /// limitations under the License.
 ///
 
-import {declare} from "apprt-core/Mutable";
+import { declare } from "apprt-core/Mutable";
 
 export default declare({
 
     factor: 1.5,
     maskEnabled: true,
     maskUrl: null,
-    offset: {x: 0, y: 0},
+    offset: { x: 0, y: 0 },
     overlayEnabled: true,
     overlayUrl: null,
     size: 120,
+    offsetEnabled: true,
 
-    offsetEnabled: true
+    $watch: {
+        "size"(value) {
+            if (this.offsetEnabled) {
+                this.offset.x = value / 2;
+                this.offset.y = value / 2;
+            }
+        },
+        "offsetEnabled"(value) {
+            if (value) {
+                this.offset.x = value / 2;
+                this.offset.y = value / 2;
+            }
+            else {
+                this.offset.x = 0;
+                this.offset.y = 0;
+            }
+        }
+    }
 });
