@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 module.exports = {
-    bundleName: "Lupen Bundle Erweiterung",
-    bundleDescription: "Das Modul ermöglicht die Nutzung einer Lupe zur Verfrößerung von Bildausschnitten.",
+    bundleName: "Lupen Bundle",
+    bundleDescription: "Das Bundle ermöglicht die Nutzung einer Lupe zur Vergrößerung von Kartenausschnitten.",
     tool: {
-        title: "Lupe"
+        title: "Lupe",
+        tooltip: "Lupe einblenden"
     },
     ui: {
-        header: "Lupen Einstellungen",
-        toggleButton: "Verschiebung an/aus",
+        windowTitle: "Lupen-Einstellungen",
+        offsetDisabledLabel: "Lupe zentrieren",
         factorLabel: "Faktor",
         sizeLabel: "Größe"
     }

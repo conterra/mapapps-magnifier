@@ -97,8 +97,7 @@ module.exports = {
             municipal: "municipal",
             zip: "Zip code",
             type: "Type"
-        },
-        widgetTitle: "Magnifier Control"
+        }
     },
     "de": true
 };

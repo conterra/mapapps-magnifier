@@ -28,8 +28,8 @@
         >
             <v-flex>
                 <v-switch
-                    v-model="offsetEnabled"
-                    :label="i18n.ui.toggleButton"
+                    v-model="offsetDisabled"
+                    :label="i18n.ui.offsetDisabledLabel"
                     color="primary"
                 />
             </v-flex>
@@ -76,6 +76,16 @@
             offsetEnabled: {
                 type: Boolean,
                 default: () => true
+            }
+        },
+        computed: {
+            offsetDisabled: {
+                get: function () {
+                    return !this.offsetEnabled
+                },
+                set: function (value) {
+                    this.offsetEnabled = !value;
+                }
             }
         }
     }

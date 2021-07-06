@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 module.exports = {
-    bundleName: "Magnifier Bundle Extension",
-    bundleDescription: "This bundle allows the user to use a magnifying glass to enlarge map sections.",
-    tool: {
-        title: "Magnifier"
+    root: {
+        bundleName: "Magnifier Bundle",
+        bundleDescription: "This bundle allows the user to use a magnifying glass to enlarge map sections.",
+        tool: {
+            title: "Magnifier",
+            tooltip: "Show Magnifier"
+        },
+        ui: {
+            windowTitle: "Magnifier settings",
+            offsetDisabledLabel: "Center Magnifier",
+            factorLabel: "Factor",
+            sizeLabel: "Size"
+        }
     },
-    ui: {
-        header: "Magnifier Settings",
-        toggleButton: "Toggle Offset",
-        factorLabel: "Factor",
-        sizeLabel: "Size"
-    },
-
     de: true
 };

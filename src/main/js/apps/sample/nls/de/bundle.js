@@ -97,6 +97,5 @@ module.exports = {
         municipal: "st\xE4dtischer",
         zip: "PLZ",
         type: "Art"
-    },
-    widgetTitle: "Lupenkontrolle"
+    }
 };

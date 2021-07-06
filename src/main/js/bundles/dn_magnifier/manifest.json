@@ -24,7 +24,7 @@
         {
             "widgetRole": "magnifierControlWidget",
             "window": {
-                "title": "${widgetTitle}",
+                "title": "${ui.windowTitle}",
                 "closable": true,
                 "minimizeOnClose": true,
                 "maximizable": false,
@@ -94,6 +94,7 @@
             "properties": {
                 "id": "magnifierToggleTool",
                 "title": "${tool.title}",
+                "tooltip": "${tool.tooltip}",
                 "iconClass": "icon-magnifier",
                 "toolRole": "toolset",
                 "togglable": true,
