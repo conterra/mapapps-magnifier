@@ -22,10 +22,10 @@ export default declare({
     maskEnabled: true,
     maskUrl: null,
     offset: { x: 0, y: 0 },
+    offsetEnabled: true,
     overlayEnabled: true,
     overlayUrl: null,
     size: 120,
-    offsetEnabled: true,
 
     $watch: {
         "size"(value) {

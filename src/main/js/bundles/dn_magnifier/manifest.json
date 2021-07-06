@@ -55,11 +55,11 @@
                     "x": 60,
                     "y": 60
                 },
+                "offsetEnabled": true,
                 "overlayEnabled": true,
                 "overlayUrl": null,
                 "size": 120,
                 "visible": false,
-                "offsetEnabled": true,
                 "showControlWidget": true
             }
         },
