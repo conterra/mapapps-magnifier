@@ -59,7 +59,8 @@
                 "overlayUrl": null,
                 "size": 120,
                 "visible": false,
-                "offsetEnabled": true
+                "offsetEnabled": true,
+                "showControlWidget": true
             }
         },
         "banner": {
