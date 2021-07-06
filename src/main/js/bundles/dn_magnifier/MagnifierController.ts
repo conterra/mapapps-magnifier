@@ -113,7 +113,7 @@ export default class {
             view.cursor = "default";
         });
 
-        // remove mouse cursor movement listener to safe resources
+        // remove mouse cursor movement listener to save resources
         this.moveEventHandler.remove();
 
         // if the magnifierControlWidget is enabled hide it alongside magnifier
