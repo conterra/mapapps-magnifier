@@ -58,7 +58,8 @@
                 "overlayEnabled": true,
                 "overlayUrl": null,
                 "size": 120,
-                "visible": false
+                "visible": false,
+                "offsetEnabled": true
             }
         },
         "banner": {
