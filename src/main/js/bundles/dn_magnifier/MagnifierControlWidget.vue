@@ -24,49 +24,37 @@
             justify-center
             column
             fill-height
-            pt-3
             dense
         >
-            <v-flex
-                xs12
-                px-4
-            >
+            <v-flex>
+                <v-switch
+                    v-model="offsetEnabled"
+                    :label="i18n.ui.toggleButton"
+                    color="primary"
+                />
+            </v-flex>
+            <v-flex>
                 <v-slider
                     v-model="factor"
                     :label="i18n.ui.factorLabel"
                     thumb-label
-                    class="pt-10"
+                    step="0.5"
                     min="1"
                     max="25"
                     append-icon="zoom_in"
                     prepend-icon="zoom_out"
                 />
             </v-flex>
-            <v-flex
-                xs12
-                px-4
-            >
+            <v-flex>
                 <v-slider
                     v-model="size"
                     :label="i18n.ui.sizeLabel"
                     thumb-label
-                    class="pt-10"
                     min="32"
                     max="512"
                     append-icon="add"
                     prepend-icon="remove"
                 />
-            </v-flex>
-            <v-flex
-                xs12
-                px-4
-            >
-                <v-btn
-                    :class="{ primary: offsetEnabled, secondary: !offsetEnabled }"
-                    @click="$emit('toggle-offset')"
-                >
-                    {{ i18n.ui.toggleButton }}
-                </v-btn>
             </v-flex>
         </v-layout>
     </v-container>
