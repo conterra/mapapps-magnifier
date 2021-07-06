@@ -15,14 +15,14 @@
 ///
 
 import MagnifierControlWidget from "./MagnifierControlWidget.vue";
-import View from "esri/views/View";
-import Vue from "apprt-vue/Vue";
-import async from "apprt-core/async";
-import ct_util from "ct/ui/desktop/util";
-import VueDijit from "apprt-vue/VueDijit";
-import Binding from "apprt-binding/Binding";
-import Observers from "apprt-core/Observers";
 import { InjectedReference } from "apprt-core/InjectedReference";
+import Vue from "apprt-vue/Vue";
+import VueDijit from "apprt-vue/VueDijit";
+import async from "apprt-core/async";
+import Observers from "apprt-core/Observers";
+import Binding from "apprt-binding/Binding";
+import ct_util from "ct/ui/desktop/util";
+import View from "esri/views/View";
 
 export default class {
 
