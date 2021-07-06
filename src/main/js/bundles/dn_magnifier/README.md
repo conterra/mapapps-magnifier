@@ -64,3 +64,4 @@ To make the functions of this bundle available to the user, the following tool c
 | overlayUrl     | string                    |                               | ```null```               | The overlay url points to an image that is displayed on top of the magnified image.                                                                                              |
 | size           | number                    |                               | ```120```                | The size of the magnifier in pixels.                                                                                                                    |
 | visible        | boolean                   | ```true``` &#124; ```false``` | ```false```              | Indicates whether the magnifier is visible. |
+| showControlWidget | boolean                | ```true``` &#124; ```false``` | ```false```              | Indicates whether the magnifierControlWidget is visible.
