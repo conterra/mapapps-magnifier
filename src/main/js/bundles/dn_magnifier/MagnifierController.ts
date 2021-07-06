@@ -25,13 +25,13 @@ import View from "esri/views/View";
 
 export default class {
 
-    private _i18n = null;
     private bundleContext = null;
     private controlWidget = null;
     private moveEventHandler = null;
     private serviceRegistration = null;
     private modelBinding = null;
     private controlWidgetBinding = null;
+    private _i18n = InjectedReference;
     private _tool: InjectedReference;
     private _mapWidgetModel: InjectedReference;
     private _magnifierModel: InjectedReference;
