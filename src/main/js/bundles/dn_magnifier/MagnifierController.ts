@@ -30,6 +30,8 @@ export default class {
     private controlWidget = null;
     private moveEventHandler = null;
     private serviceRegistration = null;
+    private modelBinding = null;
+    private controlWidgetBinding = null;
     private _tool: InjectedReference;
     private _mapWidgetModel: InjectedReference;
     private _magnifierModel: InjectedReference;
@@ -47,7 +49,7 @@ export default class {
         this.getView().then((view: View) => {
             const magnifierModel = this._magnifierModel;
 
-            Binding.for(view.magnifier, magnifierModel)
+            this.modelBinding = Binding.for(view.magnifier, magnifierModel)
                 .syncAll("factor")
                 .syncAll("maskEnabled", "maskUrl")
                 .syncAll("offset", "offsetEnabled")
@@ -67,10 +69,8 @@ export default class {
     deactivate(): void {
         this.hideMagnifierComponents();
 
-        this.observers.clean();
-        this.observers = null;
-
-        // this._destroyWidget();
+        this.modelBinding?.unbind();
+        this.modelBinding = null;
     }
 
 
@@ -98,8 +98,7 @@ export default class {
 
         // if the magnifierControlWidget is enabled show it alongside magnifier
         if (magnifierModel.showControlWidget) {
-            const widget = this.controlWidget = this.getWidget();
-            this.showWindow(widget);
+            this.showWindow();
         }
     }
 
@@ -111,12 +110,11 @@ export default class {
 
         this.getView().then((view: View) => {
             view.magnifier.visible = false;
-
-            // remove mouse cursor movement listener to safe resources
-            this.moveEventHandler.remove();
-
             view.cursor = "default";
         });
+
+        // remove mouse cursor movement listener to safe resources
+        this.moveEventHandler.remove();
 
         // if the magnifierControlWidget is enabled hide it alongside magnifier
         if (magnifierModel.showControlWidget) {
@@ -144,9 +142,9 @@ export default class {
 
     /**
      * Function used to display the magnifierControlWidget
-     * @param widget VueDijit of magnifierControlWidget provided be getWidget()
      */
-    private showWindow(widget: InjectedReference): void {
+    private showWindow(): void {
+        const widget = this.controlWidget = this.getControlWidget();
         const serviceProperties = {
             "widgetRole": "magnifierControlWidget"
         };
@@ -165,12 +163,10 @@ export default class {
      * Function used to hide the magnifierControlWidget
      */
     private hideWindow(): void {
-        this.controlWidget = null;
         const registration = this.serviceRegistration;
-
         // clear the reference
-        this.serviceRegistration = null;
 
+        this.serviceRegistration = null;
         if (registration) {
             // call unregister
             registration.unregister();
@@ -178,31 +174,26 @@ export default class {
         if (this._tool) {
             this._tool.set("active", false);
         }
+        this.controlWidget = null;
+        this.controlWidgetBinding?.unbind();
+        this.controlWidgetBinding = null;
     }
 
     /**
      * Function used to construct VueDijit and create binding for magnifierControlWidget
      * @returns VueDijit of magnifierControlWidget
      */
-    private getWidget(): InjectedReference {
+    private getControlWidget(): InjectedReference {
         const vm = new Vue(MagnifierControlWidget);
         const model = this._magnifierModel;
         vm.i18n = this._i18n.get();
 
-        Binding.for(vm, model)
+        this.controlWidgetBinding = Binding.for(vm, model)
             .syncAll("factor", "size", "offsetEnabled")
             .enable()
             .syncToLeftNow();
 
         return VueDijit(vm);
-    }
-
-    /**
-     * Function used to destroy the magnifierControlWidget
-     */
-    private destroyWidget(): void {
-        this.controlWidget.destroy();
-        this.controlWidget = undefined;
     }
 
 }
