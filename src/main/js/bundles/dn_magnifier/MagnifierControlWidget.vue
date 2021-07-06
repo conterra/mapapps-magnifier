@@ -77,13 +77,6 @@
                 type: Boolean,
                 default: () => true
             }
-        },
-        watch:{
-            size: {
-                handler(value) {
-                    this.$emit('adjust-size', value)
-                }
-            }
         }
     }
 </script>
