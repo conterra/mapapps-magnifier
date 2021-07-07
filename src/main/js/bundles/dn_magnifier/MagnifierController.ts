@@ -32,9 +32,9 @@ export default class {
     private modelBinding = null;
     private controlWidgetBinding = null;
     private _i18n = InjectedReference;
-    private _tool: InjectedReference;
-    private _mapWidgetModel: InjectedReference;
-    private _magnifierModel: InjectedReference;
+    private tool: InjectedReference;
+    private mapWidgetModel: InjectedReference;
+    private magnifierModel: InjectedReference;
 
 
     /**
@@ -47,16 +47,25 @@ export default class {
         this.bundleContext = componentContext.getBundleContext();
 
         this.getView().then((view: View) => {
-            const magnifierModel = this._magnifierModel;
+            const magnifierModel = this.magnifierModel;
+
+            if (magnifierModel.visible){
+                this.showMagnifierComponents()
+            }
 
             this.modelBinding = Binding.for(view.magnifier, magnifierModel)
-                .syncAll("factor")
-                .syncAll("maskEnabled", "maskUrl")
-                .syncAll("offset", "offsetEnabled")
-                .syncAll("overlayEnabled", "overlayUrl")
-                .syncAll("size")
-                .syncAll("visible")
-                .syncAll("showControlWidget")
+                .syncAll(
+                    "factor",
+                    "maskEnabled",
+                    "maskUrl",
+                    "offset",
+                    "offsetEnabled",
+                    "overlayEnabled",
+                    "overlayUrl",
+                    "size",
+                    "visible",
+                    "showControlWidget"
+                )
                 .enable()
                 .syncToLeftNow();
         });
@@ -73,13 +82,12 @@ export default class {
         this.modelBinding = null;
     }
 
-
     /**
      * Function used to show magnifier
      * Uses magnifier properties stored in the magnifierModel as specified in manifest.json or app.json
      */
     showMagnifierComponents(): void {
-        const magnifierModel = this._magnifierModel;
+        const magnifierModel = this.magnifierModel;
 
         this.getView().then((view: View) => {
             view.magnifier.visible = true;
@@ -106,7 +114,7 @@ export default class {
      * Function used to hide magnifier
      */
     hideMagnifierComponents(): void {
-        const magnifierModel = this._magnifierModel;
+        const magnifierModel = this.magnifierModel;
 
         this.getView().then((view: View) => {
             view.magnifier.visible = false;
@@ -126,7 +134,7 @@ export default class {
      * Helper function used to access the esri/views/View instance
      */
     private getView(): Promise<View> {
-        const mapWidgetModel = this._mapWidgetModel;
+        const mapWidgetModel = this.mapWidgetModel;
 
         return new Promise((resolve) => {
             if (mapWidgetModel.view) {
@@ -171,8 +179,8 @@ export default class {
             // call unregister
             registration.unregister();
         }
-        if (this._tool) {
-            this._tool.set("active", false);
+        if (this.tool) {
+            this.tool.set("active", false);
         }
         this.controlWidget = null;
         this.controlWidgetBinding?.unbind();
@@ -185,15 +193,17 @@ export default class {
      */
     private getControlWidget(): InjectedReference {
         const vm = new Vue(MagnifierControlWidget);
-        const model = this._magnifierModel;
+        const model = this.magnifierModel;
         vm.i18n = this._i18n.get().ui;
 
         this.controlWidgetBinding = Binding.for(vm, model)
-            .syncAll("factor", "size", "offsetEnabled")
+            .syncAll(
+                "factor",
+                "size",
+                "offsetEnabled")
             .enable()
             .syncToLeftNow();
 
         return VueDijit(vm);
     }
-
 }
