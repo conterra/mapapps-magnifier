@@ -68,15 +68,15 @@
             "provides": "dn_magnifier.MagnifierController",
             "references": [
                 {
-                    "name": "_magnifierModel",
+                    "name": "magnifierModel",
                     "providing": "dn_magnifier.MagnifierModel"
                 },
                 {
-                    "name": "_mapWidgetModel",
+                    "name": "mapWidgetModel",
                     "providing": "map-widget.MapWidgetModel"
                 },
                 {
-                    "name": "_tool",
+                    "name": "tool",
                     "providing": "ct.tools.Tool",
                     "filter": "(id=magnifierToggleTool)",
                     "cardinality": "0..1"
