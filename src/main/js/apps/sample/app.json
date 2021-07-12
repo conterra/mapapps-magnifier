@@ -602,6 +602,13 @@
                     }
                 ]
             }
+        },
+        "toolrules": {
+            "ToolActiveStateManager": {
+                "activateOnStartToolIds": [
+                    "magnifierToggleTool"
+                ]
+            }
         }
     }
 }
