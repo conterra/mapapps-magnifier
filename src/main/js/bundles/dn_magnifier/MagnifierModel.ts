@@ -26,6 +26,7 @@ export default declare({
     overlayEnabled: true,
     overlayUrl: null,
     size: 120,
+    showControlWidget: true,
 
     $watch: {
         "size"(value) {

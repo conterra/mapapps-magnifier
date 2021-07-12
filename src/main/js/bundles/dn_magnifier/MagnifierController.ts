@@ -49,10 +49,6 @@ export default class {
         this.getView().then((view: View) => {
             const magnifierModel = this.magnifierModel;
 
-            if (magnifierModel.visible){
-                this.showMagnifierComponents()
-            }
-
             this.modelBinding = Binding.for(view.magnifier, magnifierModel)
                 .syncAll(
                     "factor",
@@ -63,7 +59,6 @@ export default class {
                     "overlayEnabled",
                     "overlayUrl",
                     "size",
-                    "visible",
                     "showControlWidget"
                 )
                 .enable()

@@ -32,7 +32,6 @@ To make the functions of this bundle available to the user, the following tool c
         "overlayEnabled": true,
         "overlayUrl": null,
         "size": 120,
-        "visible": false,
         "showControlWidget": true
     }
 }
@@ -52,7 +51,6 @@ To make the functions of this bundle available to the user, the following tool c
         "overlayEnabled": true,
         "overlayUrl": null,
         "size": 200,
-        "visible": false,
         "showControlWidget": true
     }
 }
@@ -68,5 +66,4 @@ To make the functions of this bundle available to the user, the following tool c
 | overlayEnabled    | boolean                   | ```true``` &#124; ```false``` | ```true```               | Indicates whether the overlay image (magnifier border) is enabled.                                                                                      |
 | overlayUrl        | string                    |                               | ```null```               | The overlay url points to an image that is displayed on top of the magnified image.                                                                     |
 | size              | number                    |                               | ```120```                | The size of the magnifier in pixels.                                                                                                                    |
-| visible           | boolean                   | ```true``` &#124; ```false``` | ```false```              | Indicates whether the magnifier is visible.                                                                                                             |
 | showControlWidget | boolean                   | ```true``` &#124; ```false``` | ```false```              | Indicates whether the magnifierControlWidget is visible.                                                                                                |

@@ -59,7 +59,6 @@
                 "overlayEnabled": true,
                 "overlayUrl": null,
                 "size": 120,
-                "visible": false,
                 "showControlWidget": true
             }
         },
