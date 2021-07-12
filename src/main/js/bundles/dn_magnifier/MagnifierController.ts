@@ -15,7 +15,7 @@
 ///
 
 import MagnifierControlWidget from "./MagnifierControlWidget.vue";
-import { InjectedReference } from "apprt-core/InjectedReference";
+import {InjectedReference} from "apprt-core/InjectedReference";
 import Vue from "apprt-vue/Vue";
 import VueDijit from "apprt-vue/VueDijit";
 import async from "apprt-core/async";
@@ -50,17 +50,8 @@ export default class {
             const magnifierModel = this.magnifierModel;
 
             this.modelBinding = Binding.for(view.magnifier, magnifierModel)
-                .syncAll(
-                    "factor",
-                    "maskEnabled",
-                    "maskUrl",
-                    "offset",
-                    "offsetEnabled",
-                    "overlayEnabled",
-                    "overlayUrl",
-                    "size",
-                    "showControlWidget"
-                )
+                .syncAll("factor", "maskEnabled", "maskUrl", "offset",
+                    "offsetEnabled", "overlayEnabled", "overlayUrl", "size", "showControlWidget")
                 .enable()
                 .syncToLeftNow();
         });
@@ -134,9 +125,8 @@ export default class {
         return new Promise((resolve) => {
             if (mapWidgetModel.view) {
                 resolve(mapWidgetModel.view);
-            }
-            else {
-                mapWidgetModel.watch("view", ({ value: view }) => {
+            } else {
+                mapWidgetModel.watch("view", ({value: view}) => {
                     resolve(view);
                 });
             }
@@ -192,10 +182,7 @@ export default class {
         vm.i18n = this._i18n.get().ui;
 
         this.controlWidgetBinding = Binding.for(vm, model)
-            .syncAll(
-                "factor",
-                "size",
-                "offsetEnabled")
+            .syncAll("factor", "size", "offsetEnabled")
             .enable()
             .syncToLeftNow();
 
