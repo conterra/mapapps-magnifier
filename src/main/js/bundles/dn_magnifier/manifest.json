@@ -31,8 +31,8 @@
                 "resizable": true,
                 "draggable": true,
                 "marginBox": {
-                    "l": 10,
-                    "t": 115,
+                    "l": 20,
+                    "t": 130,
                     "w": 275,
                     "h": 300
                 }
