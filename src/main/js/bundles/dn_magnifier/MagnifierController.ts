@@ -86,8 +86,10 @@ export default class {
                 };
             });
 
-            // while a magnifier is shown, display mouse cursor as crosshairs
-            view.cursor = "crosshair";
+            async(() => {
+                // while a magnifier is shown, display mouse cursor as crosshairs
+                view.cursor = "crosshair";
+            }, 100);
         });
 
         // if the magnifierControlWidget is enabled show it alongside magnifier
