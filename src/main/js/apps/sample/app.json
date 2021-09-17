@@ -51,11 +51,7 @@
                 "factor": 1.5,
                 "maskEnabled": true,
                 "maskUrl": null,
-                "offset": {
-                    "x": 60,
-                    "y": 60
-                },
-                "offsetEnabled": true,
+                "offsetEnabled": false,
                 "overlayEnabled": true,
                 "overlayUrl": null,
                 "size": 120,
@@ -500,7 +496,7 @@
         },
         "themes": {
             "ThemeModel": {
-                "_selectedTheme": "everlasting"
+                "_selectedTheme": "autumn"
             },
             "ThemeSelector": {
                 "componentEnabled": true

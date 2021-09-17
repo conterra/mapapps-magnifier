@@ -24,10 +24,6 @@ To make the functions of this bundle available to the user, the following tool c
         "factor": 1.5,
         "maskEnabled": true,
         "maskUrl": null,
-        "offset": {
-            "x": 60,
-            "y": 60
-        },
         "offsetEnabled": true,
         "overlayEnabled": true,
         "overlayUrl": null,
@@ -43,10 +39,6 @@ To make the functions of this bundle available to the user, the following tool c
         "factor": 5,
         "maskEnabled": true,
         "maskUrl": null,
-        "offset": {
-            "x": 100,
-            "y": 100
-        },
         "offsetEnabled": true,
         "overlayEnabled": true,
         "overlayUrl": null,
@@ -61,7 +53,6 @@ To make the functions of this bundle available to the user, the following tool c
 | factor            | number                    |                               | ```1.5```                | Controls the amount of magnification to display.                                                                                                        |
 | maskEnabled       | boolean                   | ```true``` &#124; ```false``` | ```true```               | Indicates whether the mask image is enabled.                                                                                                            |
 | maskUrl           | string                    |                               | ```null```               | The mask url points to an image that determines the visible area of the magnified image (alpha channel).                                                |
-| offset            | esri/geometry/ScreenPoint |                               | ```{"x": 60, "y": 60}``` | The offset of the magnifier in pixels.                                                                                                                  |
 | offsetEnabled     | boolean                   | ```true``` &#124; ```false``` | ```true```               | Enable or disable the offset.                                                                                                                           |
 | overlayEnabled    | boolean                   | ```true``` &#124; ```false``` | ```true```               | Indicates whether the overlay image (magnifier border) is enabled.                                                                                      |
 | overlayUrl        | string                    |                               | ```null```               | The overlay url points to an image that is displayed on top of the magnified image.                                                                     |

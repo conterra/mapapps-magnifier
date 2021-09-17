@@ -52,10 +52,10 @@
                 "maskEnabled": true,
                 "maskUrl": null,
                 "offset": {
-                    "x": 60,
-                    "y": 60
+                    "x": 0,
+                    "y": 0
                 },
-                "offsetEnabled": true,
+                "offsetEnabled": false,
                 "overlayEnabled": true,
                 "overlayUrl": null,
                 "size": 120,
