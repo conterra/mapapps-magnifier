@@ -32,7 +32,7 @@
                     thumb-label="always"
                     step="0.5"
                     min="1"
-                    max="25"
+                    max="10"
                     append-icon="zoom_in"
                     prepend-icon="zoom_out"
                     hide-details
